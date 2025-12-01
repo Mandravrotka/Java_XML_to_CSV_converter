@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Конвертер XML > CSV</title>
+</head>
+<body>
+<div class="container">
+    <h1>Конвертер XML в CSV</h1>
+    <p>Выберите XML-файл с данными о пользователях:</p>
+
+    <form action="/xml/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xml" required>
+        <button type="submit">Конвертировать в CSV</button>
+    </form>
+
+</div>
+</body>
+</html>
