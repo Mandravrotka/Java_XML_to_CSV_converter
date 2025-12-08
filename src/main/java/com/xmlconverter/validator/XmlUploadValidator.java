@@ -19,6 +19,10 @@ public class XmlUploadValidator {
         if (fileError != null) {
             return fileError;
         }
+        String filename = file.getOriginalFilename();
+        if (!filename.toLowerCase().endsWith(".xml")) {
+            return "Требуется XML-файл";
+        }
 
         // Парсинг и проверка, что есть игры
         Games games;

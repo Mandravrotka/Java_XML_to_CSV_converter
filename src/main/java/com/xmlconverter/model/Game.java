@@ -7,7 +7,7 @@ import static jakarta.xml.bind.annotation.XmlAccessType.FIELD;
 
 @XmlAccessorType(FIELD)
 @Getter
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(force = true)
 public class Game {
     @XmlElement(name = "название")
