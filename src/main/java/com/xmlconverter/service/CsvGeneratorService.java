@@ -2,8 +2,12 @@ package com.xmlconverter.service;
 
 import com.xmlconverter.model.Game;
 import com.xmlconverter.model.Games;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.val;
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -14,13 +18,15 @@ import static org.apache.commons.csv.CSVFormat.DEFAULT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
+@FieldDefaults(makeFinal = true)
 public class CsvGeneratorService {
+    static CSVFormat CSV_FORMAT = DEFAULT.
+        withHeader("название", "дата", "жанр", "рейтинг", "продажи", "разработчик", "возрастной_рейтинг");
 
-    public byte[] generateCsv(Games games) throws IOException {
+    public byte[] generateCsv(@NonNull final Games games) throws IOException {
         try (val csvOutput = new ByteArrayOutputStream();
              val writer = new OutputStreamWriter(csvOutput, UTF_8);
-             val csvPrinter = new CSVPrinter(writer,
-                     DEFAULT.withHeader("название", "дата", "жанр", "рейтинг", "продажи", "разработчик", "возрастной_рейтинг"))) {
+             val csvPrinter = new CSVPrinter(writer, CSV_FORMAT)) {
 
             if (games.getGames() != null) {
                 for (Game game : games.getGames()) {

@@ -2,32 +2,34 @@ package com.xmlconverter.model;
 
 import jakarta.xml.bind.annotation.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import static jakarta.xml.bind.annotation.XmlAccessType.FIELD;
+import static lombok.AccessLevel.PUBLIC;
 
 @XmlAccessorType(FIELD)
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Game {
     @XmlElement(name = "название")
-    private final String title;
+    String title;
 
     @XmlElement(name = "дата")
-    private final String releaseDate;
+    String releaseDate;
 
     @XmlElement(name = "жанр")
-    private final String genre;
+    String genre;
 
     @XmlElement(name = "рейтинг")
-    private final int rating;
+    int rating;
 
     @XmlElement(name = "продажи")
-    private final long sales;
+    long sales;
 
     @XmlElement(name = "разработчик")
-    private final String developer;
+    String developer;
 
     @XmlElement(name = "возрастной_рейтинг")
-    private final String ageRating;
+    String ageRating;
 }

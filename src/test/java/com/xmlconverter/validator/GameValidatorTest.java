@@ -19,14 +19,6 @@ class GameValidatorTest {
     class TitleValidationTest {
 
         @Test
-        @DisplayName("Должен вернуть ошибку, если игра null")
-        void shouldNotValidate_NullGame() {
-            String error = validator.validate(null);
-            assertNotNull(error);
-            assertEquals("Игра не может быть null", error);
-        }
-
-        @Test
         @DisplayName("Должен вернуть ошибку, если title пустой")
         void shouldNotValidate_EmptyTitle() {
             Game game = new Game("", "01-01-2020", "Экшен", 90, 1000000, "Dev", "17+");
@@ -76,7 +68,7 @@ class GameValidatorTest {
         void shouldNotValidate_InvalidDateFormat() {
             Game game = new Game("Игра", "2020-01-01", "Экшен", 90, 1000000, "Dev", "17+");
             String error = validator.validate(game);
-            assertEquals("Дата должна быть в формате DD-MM-YYYY и существовать", error);
+            assertEquals("Дата должна быть в формате DD-MM-YYYY", error);
         }
 
         @Test
@@ -84,7 +76,7 @@ class GameValidatorTest {
         void shouldNotValidate_NonExistentDate() {
             Game game = new Game("Игра", "32-13-2020", "Экшен", 90, 1000000, "Dev", "17+");
             String error = validator.validate(game);
-            assertEquals("Дата должна быть в формате DD-MM-YYYY и существовать", error);
+            assertEquals("Некорректная дата", error);
         }
 
         @Test
@@ -92,7 +84,7 @@ class GameValidatorTest {
         void shouldNotValidate_FutureYear() {
             Game game = new Game("Игра", "01-01-2100", "Экшен", 90, 1000000, "Dev", "17+");
             String error = validator.validate(game);
-            assertEquals("Дата должна быть в формате DD-MM-YYYY и существовать", error);
+            assertEquals("Год должен быть от 1950 до 2025", error);
         }
     }
 

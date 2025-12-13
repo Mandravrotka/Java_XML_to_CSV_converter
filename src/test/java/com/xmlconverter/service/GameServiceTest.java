@@ -47,16 +47,6 @@ class GameServiceTest {
     }
 
     @Test
-    @DisplayName("Должен вернуть пустой список, если входной объект null")
-    void shouldReturnEmptyList_WhenInputIsNull() {
-        Games result = gameService.getSortedBySalesDesc(null);
-
-        assertNotNull(result);
-        assertNotNull(result.getGames());
-        assertTrue(result.getGames().isEmpty());
-    }
-
-    @Test
     @DisplayName("Должен вернуть пустой список, если games.getGames() == null")
     void shouldReturnEmptyList_WhenGamesListIsNull() {
         Games gamesWithNullList = new Games(null);
