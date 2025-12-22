@@ -18,7 +18,9 @@ public class XmlParserService {
         try {
             JAXB_CONTEXT = JAXBContext.newInstance(Games.class);
         } catch (JAXBException exception) {
-            throw new ExceptionInInitializerError("Ошибка инициализации JAXBContext: " + exception);
+            throw new ExceptionInInitializerError(
+                new RuntimeException("Ошибка инициализации JAXBContext", exception)
+            );
         }
     }
 

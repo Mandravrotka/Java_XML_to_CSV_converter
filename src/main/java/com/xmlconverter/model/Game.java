@@ -1,16 +1,17 @@
 package com.xmlconverter.model;
 
-import jakarta.xml.bind.annotation.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static jakarta.xml.bind.annotation.XmlAccessType.FIELD;
-import static lombok.AccessLevel.PUBLIC;
 
 @XmlAccessorType(FIELD)
-@Getter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Game {
     @XmlElement(name = "название")
     String title;

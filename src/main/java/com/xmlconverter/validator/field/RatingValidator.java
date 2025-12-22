@@ -1,6 +1,7 @@
 package com.xmlconverter.validator.field;
 
 import com.xmlconverter.model.Game;
+import lombok.val;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class RatingValidator implements GameFieldValidator {
     @Override
     public String validate(@NonNull final Game game) {
-        int rating = game.getRating();
+        val rating = game.getRating();
         if (rating < 0 || rating > 100) {
             return "Рейтинг должен быть от 0 до 100";
         }

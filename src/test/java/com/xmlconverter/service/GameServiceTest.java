@@ -2,6 +2,7 @@ package com.xmlconverter.service;
 
 import com.xmlconverter.model.Game;
 import com.xmlconverter.model.Games;
+import lombok.val;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -20,12 +21,12 @@ class GameServiceTest {
     @Test
     @DisplayName("Должен отсортировать игры по продажам по убыванию")
     void shouldSortGamesBySalesDesc() {
-        Game game1 = new Game("Игра A", "01-01-2020", "Экшен", 90, 5000000, "Dev1", "17+");
-        Game game2 = new Game("Игра B", "01-01-2020", "РПГ", 85, 10000000, "Dev2", "17+");
-        Game game3 = new Game("Игра C", "01-01-2020", "Платформер", 95, 2000000, "Dev3", "10+");
+        val game1 = new Game("Игра A", "01-01-2020", "Экшен", 90, 5000000, "Dev1", "17+");
+        val game2 = new Game("Игра B", "01-01-2020", "РПГ", 85, 10000000, "Dev2", "17+");
+        val game3 = new Game("Игра C", "01-01-2020", "Платформер", 95, 2000000, "Dev3", "10+");
 
-        Games inputGames = new Games(List.of(game1, game2, game3));
-        Games result = gameService.getSortedBySalesDesc(inputGames);
+        val inputGames = new Games(List.of(game1, game2, game3));
+        val result = gameService.getSortedBySalesDesc(inputGames);
 
         assertNotNull(result);
         assertNotNull(result.getGames());
@@ -38,8 +39,8 @@ class GameServiceTest {
     @Test
     @DisplayName("Должен вернуть пустой список, если входной список пустой")
     void shouldReturnEmptyList_WhenInputIsEmpty() {
-        Games inputGames = new Games(List.of());
-        Games result = gameService.getSortedBySalesDesc(inputGames);
+        val inputGames = new Games(List.of());
+        val result = gameService.getSortedBySalesDesc(inputGames);
 
         assertNotNull(result);
         assertNotNull(result.getGames());
@@ -49,8 +50,8 @@ class GameServiceTest {
     @Test
     @DisplayName("Должен вернуть пустой список, если games.getGames() == null")
     void shouldReturnEmptyList_WhenGamesListIsNull() {
-        Games gamesWithNullList = new Games(null);
-        Games result = gameService.getSortedBySalesDesc(gamesWithNullList);
+        val gamesWithNullList = new Games(null);
+        val result = gameService.getSortedBySalesDesc(gamesWithNullList);
 
         assertNotNull(result);
         assertNotNull(result.getGames());
@@ -60,11 +61,11 @@ class GameServiceTest {
     @Test
     @DisplayName("Должен корректно обрабатывать игры с одинаковым количеством продаж")
     void shouldHandleGamesWithSameSales() {
-        Game game1 = new Game("Игра A", "01-01-2020", "Экшен", 90, 5000000, "Dev1", "17+");
-        Game game2 = new Game("Игра B", "01-01-2020", "РПГ", 85, 5000000, "Dev2", "17+");
+        val game1 = new Game("Игра A", "01-01-2020", "Экшен", 90, 5000000, "Dev1", "17+");
+        val game2 = new Game("Игра B", "01-01-2020", "РПГ", 85, 5000000, "Dev2", "17+");
 
-        Games inputGames = new Games(List.of(game1, game2));
-        Games result = gameService.getSortedBySalesDesc(inputGames);
+        val inputGames = new Games(List.of(game1, game2));
+        val result = gameService.getSortedBySalesDesc(inputGames);
 
         assertNotNull(result);
         assertEquals(2, result.getGames().size());

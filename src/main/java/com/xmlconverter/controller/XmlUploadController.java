@@ -2,41 +2,40 @@ package com.xmlconverter.controller;
 
 import com.xmlconverter.service.XmlProcessingService;
 import com.xmlconverter.validator.XmlUploadValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.val;
+
+import lombok.extern.slf4j.Slf4j;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestController
 @RequestMapping("/xml")
+@Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true)
 class XmlUploadController {
-    private static final Logger log = LoggerFactory.getLogger(XmlUploadController.class);
-
-    @Autowired XmlProcessingService xmlProcessingService;
-    @Autowired XmlUploadValidator xmlUploadValidator;
+    XmlProcessingService xmlProcessingService;
+    XmlUploadValidator xmlUploadValidator;
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public ResponseEntity<byte[]> uploadGamesXmlFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<byte[]> uploadGamesXmlFile(@RequestParam("file") final MultipartFile file) {
         try {
-            String validationError = xmlUploadValidator.validate(file);
+            val validationError = xmlUploadValidator.validate(file);
             if (validationError != null) {
                 return ResponseHandler.createErrorResponse(validationError, BAD_REQUEST);
             }
 
-            final byte[] csvBytes = xmlProcessingService.processXmlFile(file);
-
-            return ResponseHandler.createSuccessResponse(csvBytes);
-
+            return ResponseHandler.createSuccessResponse(xmlProcessingService.processXmlFile(file));
         } catch (Exception exception) {
             log.error("Ошибка при обработке загрузки XML-файла", exception);
-            return ResponseHandler.createErrorResponse("Ошибка обработки: " + exception.getMessage(), INTERNAL_SERVER_ERROR);
+            return ResponseHandler.createErrorResponse("Ошибка обработки: %s".formatted(exception.getMessage()), INTERNAL_SERVER_ERROR);
         }
     }
 }

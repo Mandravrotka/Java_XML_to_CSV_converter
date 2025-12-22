@@ -2,27 +2,33 @@ package com.xmlconverter.validator;
 
 import com.xmlconverter.model.Games;
 import com.xmlconverter.service.XmlParserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.val;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
+import static java.util.stream.Collectors.joining;
+
 @Component
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true)
 public class XmlUploadValidator {
-    @Autowired UploadValidator uploadValidator;
-    @Autowired GameValidator gameValidator;
-    @Autowired XmlParserService xmlParserService;
+    UploadValidator uploadValidator;
+    GameValidator gameValidator;
+    XmlParserService xmlParserService;
 
     public String validate(@NonNull final MultipartFile file) {
         // Валидация файла (пустой, расширение)
-        String fileError = uploadValidator.validateFile(file);
+        val fileError = uploadValidator.validateFile(file);
         if (fileError != null) {
             return fileError;
         }
-        String filename = file.getOriginalFilename();
-        if (!filename.toLowerCase().endsWith(".xml")) {
+
+        if (!file.getOriginalFilename().toLowerCase().endsWith(".xml")) {
             return "Требуется XML-файл";
         }
 
@@ -38,10 +44,12 @@ public class XmlUploadValidator {
             return "Файл не содержит игр";
         }
 
-        return games.getGames().stream()
-            .map(game -> gameValidator.validate(game))
+        val errors = games.getGames().stream()
             .filter(Objects::nonNull)
-            .findFirst()
-            .orElse(null);
+            .map(gameValidator::validate)
+            .filter(Objects::nonNull)
+            .toList();
+        
+        return errors.isEmpty() ? null : String.join("; ", errors);
     }
 }

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 public class SalesValidator implements GameFieldValidator {
     @Override
     public String validate(@NonNull final Game game) {
-        long sales = game.getSales();
-        if (sales < 0) {
+        if (game.getSales() < 0) {
             return "Количество продаж должно быть неотрицательным числом";
         }
         return null;

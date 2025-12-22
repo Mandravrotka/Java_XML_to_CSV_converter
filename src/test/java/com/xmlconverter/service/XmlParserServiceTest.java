@@ -1,6 +1,7 @@
 package com.xmlconverter.service;
 
 import com.xmlconverter.model.Games;
+import lombok.val;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,9 +25,9 @@ class XmlParserServiceTest {
     @DisplayName("Должен успешно распарсить корректный XML с играми")
     void shouldParseValidXml() throws Exception {
         // Подготавливаем файл из ресурсов
-        File xmlFile = new ClassPathResource("Пример.xml").getFile();
-        byte[] content = Files.readAllBytes(xmlFile.toPath());
-        MultipartFile multipartFile = new MockMultipartFile(
+        val xmlFile = new ClassPathResource("Пример.xml").getFile();
+        val content = Files.readAllBytes(xmlFile.toPath());
+        val multipartFile = new MockMultipartFile(
                 "file",
                 "Пример.xml",
                 "application/xml",
@@ -34,7 +35,7 @@ class XmlParserServiceTest {
         );
 
         // Выполняем парсинг
-        Games games = xmlParserService.parse(multipartFile);
+        val games = xmlParserService.parse(multipartFile);
 
         // Проверяем результат
         assertNotNull(games, "Результат парсинга не должен быть null");
@@ -49,8 +50,8 @@ class XmlParserServiceTest {
     @DisplayName("Должен выбросить исключение при невалидном XML")
     void shouldThrowException_WhenXmlIsMalformed() throws Exception {
         // Несогласованные теги — ошибка парсинга
-        String invalidXml = "<игры><игра><название>Test</игры>";
-        MultipartFile file = new MockMultipartFile(
+        val invalidXml = "<игры><игра><название>Test</игры>";
+        val file = new MockMultipartFile(
                 "file",
                 "invalid.xml",
                 "application/xml",
@@ -58,7 +59,7 @@ class XmlParserServiceTest {
         );
 
         // Ожидаем RuntimeException из-за JAXBException
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        val exception = assertThrows(RuntimeException.class, () -> {
             xmlParserService.parse(file);
         });
 
@@ -69,14 +70,14 @@ class XmlParserServiceTest {
     @Test
     @DisplayName("Должен выбросить исключение при пустом XML")
     void shouldThrowException_WhenXmlIsEmpty() throws Exception {
-        MultipartFile emptyFile = new MockMultipartFile(
+        val emptyFile = new MockMultipartFile(
                 "file",
                 "empty.xml",
                 "application/xml",
                 new byte[0]
         );
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        val exception = assertThrows(RuntimeException.class, () -> {
             xmlParserService.parse(emptyFile);
         });
 
@@ -87,15 +88,15 @@ class XmlParserServiceTest {
     @Test
     @DisplayName("Должен обработать XML без игр (пустой список)")
     void shouldParseXmlWithNoGames() throws Exception {
-        String xmlContent = "<игры></игры>";
-        MultipartFile file = new MockMultipartFile(
+        val xmlContent = "<игры></игры>";
+        val file = new MockMultipartFile(
                 "file",
                 "no-games.xml",
                 "application/xml",
                 xmlContent.getBytes()
         );
 
-        Games games = xmlParserService.parse(file);
+        val games = xmlParserService.parse(file);
 
         assertNotNull(games);
         assertNull(games.getGames(), "Список игр должен быть пустым");

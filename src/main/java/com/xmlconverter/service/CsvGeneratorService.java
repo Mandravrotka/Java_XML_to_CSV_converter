@@ -23,34 +23,35 @@ public class CsvGeneratorService {
     static CSVFormat CSV_FORMAT = DEFAULT.
         withHeader("название", "дата", "жанр", "рейтинг", "продажи", "разработчик", "возрастной_рейтинг");
 
-    public byte[] generateCsv(@NonNull final Games games) throws IOException {
+    public byte[] generateCsv(@NonNull final Games games) {
         try (val csvOutput = new ByteArrayOutputStream();
              val writer = new OutputStreamWriter(csvOutput, UTF_8);
              val csvPrinter = new CSVPrinter(writer, CSV_FORMAT)) {
 
             if (games.getGames() != null) {
-                for (Game game : games.getGames()) {
-                    csvPrinter.printRecord(
-                            game.getTitle(),
-                            game.getReleaseDate(),
-                            game.getGenre(),
-                            game.getRating(),
-                            game.getSales(),
-                            game.getDeveloper(),
-                            game.getAgeRating()
-                    );
-                }
+                games.getGames().forEach(game -> {
+                    try {
+                        csvPrinter.printRecord(
+                                game.getTitle(),
+                                game.getReleaseDate(),
+                                game.getGenre(),
+                                game.getRating(),
+                                game.getSales(),
+                                game.getDeveloper(),
+                                game.getAgeRating()
+                        );
+                    } catch (IOException exception) {
+                        throw new RuntimeException("Ошибка при записи данных в CSV", exception);
+                    }
+                });
             }
-            // Если не добавлять flush, то в csvOutput будет храниться максимум 1024 байт.
-            // Где-то в процессе выполнения следующей последовательности close() происходит потеря данных.
-            // 1. csvPrinter.close() > flush > в writer
-            // 2. writer.close() > flush > в csvOutput
-            // 3. csvOutput.toByteArray()
-            //
-            // При добавлении flush, данные в csvOutput будут сохраняться.
-            csvPrinter.flush();
 
+            // Явный flush необходим, так как при закрытии CSVPrinter
+            // некоторые данные могут оставаться в буфере
+            csvPrinter.flush();
             return csvOutput.toByteArray();
+        } catch (IOException exception) {
+            throw new RuntimeException("Ошибка при генерации CSV", exception);
         }
     }
 }

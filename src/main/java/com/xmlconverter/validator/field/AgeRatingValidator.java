@@ -1,30 +1,25 @@
 package com.xmlconverter.validator.field;
 
 import com.xmlconverter.model.Game;
-import org.apache.commons.lang3.StringUtils;
+import lombok.val;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+import java.util.regex.Pattern;
+
 @Component
 public class AgeRatingValidator implements GameFieldValidator {
+    private static final Pattern AGE_RATING_PATTERN = Pattern.compile("^(?:[0-9]|1[0-9]|2[01])\\+$");
+
     @Override
     public String validate(@NonNull final Game game) {
-        String ageRating = game.getAgeRating();
-        if (StringUtils.isBlank(ageRating)) {
+        val ageRating = game.getAgeRating();
+        if (ageRating == null || ageRating.trim().isEmpty()) {
             return "Возрастной рейтинг не должен быть пустым";
         }
-        if (!isValidAgeRating(ageRating)) {
+        if (!AGE_RATING_PATTERN.matcher(ageRating).matches()) {
             return "Возрастной рейтинг должен быть в формате N+, где N от 0 до 21";
         }
         return null;
-    }
-
-    private boolean isValidAgeRating(String rating) {
-        if (!rating.endsWith("+")) return false;
-        String numPart = rating.substring(0, rating.length() - 1);
-        if (StringUtils.isBlank(numPart)) return false;
-        if (!StringUtils.isNumeric(numPart)) return false;
-        int n = Integer.parseInt(numPart);
-        return n >= 0 && n <= 21;
     }
 }
