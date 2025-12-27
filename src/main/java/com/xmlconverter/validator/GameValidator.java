@@ -12,8 +12,6 @@ import com.xmlconverter.model.Game;
 import java.util.List;
 import java.util.Objects;
 
-import static java.util.stream.Collectors.joining;
-
 @Component
 @FieldDefaults(makeFinal = true)
 public class GameValidator {

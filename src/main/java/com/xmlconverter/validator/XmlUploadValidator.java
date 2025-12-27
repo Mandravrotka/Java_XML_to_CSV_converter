@@ -11,8 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
-import static java.util.stream.Collectors.joining;
-
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true)

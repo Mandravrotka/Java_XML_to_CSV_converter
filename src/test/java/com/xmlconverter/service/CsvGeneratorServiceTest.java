@@ -2,7 +2,6 @@ package com.xmlconverter.service;
 
 import com.xmlconverter.model.Game;
 import com.xmlconverter.model.Games;
-import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
