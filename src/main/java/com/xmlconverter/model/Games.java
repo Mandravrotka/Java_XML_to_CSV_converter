@@ -10,9 +10,11 @@ import static jakarta.xml.bind.annotation.XmlAccessType.FIELD;
 @XmlRootElement(name = "игры")
 @XmlAccessorType(FIELD)
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Games {
     @XmlElement(name = "игра")
+    @NonNull
     List<Game> games;
 }

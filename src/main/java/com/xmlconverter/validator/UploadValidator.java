@@ -1,6 +1,5 @@
 package com.xmlconverter.validator;
 
-import lombok.val;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +12,7 @@ public class UploadValidator {
             return "Файл пустой";
         }
 
-        val filename = file.getOriginalFilename();
-        if (StringUtils.isBlank(filename)) {
+        if (StringUtils.isBlank(file.getOriginalFilename())) {
             return "Имя файла не указано";
         }
 

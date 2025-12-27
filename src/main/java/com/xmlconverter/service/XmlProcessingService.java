@@ -2,7 +2,6 @@ package com.xmlconverter.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.val;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +16,7 @@ public class XmlProcessingService {
 
     public byte[] processXmlFile(@NonNull final MultipartFile file) throws Exception {
         try {
-            val games = xmlParserService.parse(file);
-            val sortedGames = gameService.getSortedBySalesDesc(games);
-
-            return csvGeneratorService.generateCsv(sortedGames);
+            return csvGeneratorService.generateCsv(gameService.getSortedBySalesDesc(xmlParserService.parse(file)));
         } catch (Exception exception) {
             throw new Exception("Ошибка обработки XML: ", exception);
         }

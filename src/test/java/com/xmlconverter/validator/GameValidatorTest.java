@@ -1,19 +1,48 @@
 package com.xmlconverter.validator;
 
 import com.xmlconverter.model.Game;
-import lombok.val;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class GameValidatorTest {
-
     @Autowired
     private GameValidator validator;
+
+    private Game validGame() {
+        return new Game("Зе Витчер 3", "19-05-2015", "Экшен РПГ", 93, 50_000_000, "Си Ди Проект Ред", "17+");
+    }
+
+    private Game withTitle(String title) {
+        return validGame().toBuilder().title(title).build();
+    }
+
+    private Game withReleaseDate(String releaseDate) {
+        return validGame().toBuilder().releaseDate(releaseDate).build();
+    }
+
+    private Game withGenre(String genre) {
+        return validGame().toBuilder().genre(genre).build();
+    }
+
+    private Game withRating(int rating) {
+        return validGame().toBuilder().rating(rating).build();
+    }
+
+    private Game withSales(long sales) {
+        return validGame().toBuilder().sales(sales).build();
+    }
+
+    private Game withDeveloper(String developer) {
+        return validGame().toBuilder().developer(developer).build();
+    }
+
+    private Game withAgeRating(String ageRating) {
+        return validGame().toBuilder().ageRating(ageRating).build();
+    }
 
     @Nested
     @DisplayName("Тесты для поля 'title' (название)")
@@ -22,25 +51,22 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если title пустой")
         void shouldNotValidate_EmptyTitle() {
-            val game = new Game("", "01-01-2020", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Название игры не должно быть пустым", error);
+            assertThat(validator.validate(withTitle("")))
+                .isEqualTo("Название игры не должно быть пустым");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если title состоит из пробелов")
         void shouldNotValidate_BlankTitle() {
-            val game = new Game("   ", "01-01-2020", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Название игры не должно быть пустым", error);
+            assertThat(validator.validate(withTitle("   ")))
+                .isEqualTo("Название игры не должно быть пустым");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если title null")
         void shouldNotValidate_NullTitle() {
-            val game = new Game(null, "01-01-2020", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Название игры не должно быть пустым", error);
+            assertThat(validator.validate(withTitle(null)))
+                .isEqualTo("Название игры не должно быть пустым");
         }
     }
 
@@ -51,41 +77,36 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если releaseDate null")
         void shouldNotValidate_NullReleaseDate() {
-            val game = new Game("Игра", null, "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Дата релиза не должна быть пустой", error);
+            assertThat(validator.validate(withReleaseDate(null)))
+                .isEqualTo("Дата релиза не должна быть пустой");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если releaseDate пустой")
         void shouldNotValidate_BlankReleaseDate() {
-            val game = new Game("Игра", "   ", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Дата релиза не должна быть пустой", error);
+            assertThat(validator.validate(withReleaseDate("   ")))
+                .isEqualTo("Дата релиза не должна быть пустой");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если формат даты неверный")
         void shouldNotValidate_InvalidDateFormat() {
-            val game = new Game("Игра", "2020-01-01", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Дата должна быть в формате DD-MM-YYYY", error);
+            assertThat(validator.validate(withReleaseDate("2020-01-01")))
+                .isEqualTo("Дата должна быть в формате DD-MM-YYYY");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если дата не существует")
         void shouldNotValidate_NonExistentDate() {
-            val game = new Game("Игра", "32-13-2020", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Указана некорректная дата", error);
+            assertThat(validator.validate(withReleaseDate("32-13-2020")))
+                .isEqualTo("Указана некорректная дата");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если год в будущем")
         void shouldNotValidate_FutureYear() {
-            val game = new Game("Игра", "01-01-2100", "Экшен", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Год должен быть от 1950 до 2025", error);
+            assertThat(validator.validate(withReleaseDate("01-01-2100")))
+                .isEqualTo("Год должен быть от 1950 до 2025");
         }
     }
 
@@ -96,9 +117,8 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если genre пустой")
         void shouldNotValidate_EmptyGenre() {
-            val game = new Game("Игра", "01-01-2020", "", 90, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Жанр не должен быть пустым", error);
+            assertThat(validator.validate(withGenre("")))
+                .isEqualTo("Жанр не должен быть пустым");
         }
     }
 
@@ -109,17 +129,15 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если rating < 0")
         void shouldNotValidate_RatingTooLow() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", -1, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Рейтинг должен быть от 0 до 100", error);
+            assertThat(validator.validate(withRating(-1)))
+                .isEqualTo("Рейтинг должен быть от 0 до 100");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если rating > 100")
         void shouldNotValidate_RatingTooHigh() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 101, 1000000, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Рейтинг должен быть от 0 до 100", error);
+            assertThat(validator.validate(withRating(101)))
+                .isEqualTo("Рейтинг должен быть от 0 до 100");
         }
     }
 
@@ -130,9 +148,8 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если sales < 0")
         void shouldNotValidate_NegativeSales() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, -100, "Dev", "17+");
-            val error = validator.validate(game);
-            assertEquals("Количество продаж должно быть неотрицательным числом", error);
+            assertThat(validator.validate(withSales(-100)))
+                .isEqualTo("Количество продаж должно быть неотрицательным числом");
         }
     }
 
@@ -143,9 +160,8 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если developer пустой")
         void shouldNotValidate_EmptyDeveloper() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, 1000000, "", "17+");
-            val error = validator.validate(game);
-            assertEquals("Разработчик не должен быть пустым", error);
+            assertThat(validator.validate(withDeveloper("")))
+                .isEqualTo("Разработчик не должен быть пустым");
         }
     }
 
@@ -156,49 +172,42 @@ class GameValidatorTest {
         @Test
         @DisplayName("Должен вернуть ошибку, если ageRating null")
         void shouldNotValidate_NullAgeRating() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, 1000000, "Dev", null);
-            val error = validator.validate(game);
-            assertEquals("Возрастной рейтинг не должен быть пустым", error);
+            assertThat(validator.validate(withAgeRating(null)))
+                .isEqualTo("Возрастной рейтинг не должен быть пустым");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если ageRating пустой")
         void shouldNotValidate_BlankAgeRating() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, 1000000, "Dev", "   ");
-            val error = validator.validate(game);
-            assertEquals("Возрастной рейтинг не должен быть пустым", error);
+            assertThat(validator.validate(withAgeRating("   ")))
+                .isEqualTo("Возрастной рейтинг не должен быть пустым");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если ageRating без '+'")
         void shouldNotValidate_NoPlus() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, 1000000, "Dev", "18");
-            val error = validator.validate(game);
-            assertEquals("Возрастной рейтинг должен быть в формате N+, где N от 0 до 21", error);
+            assertThat(validator.validate(withAgeRating("18")))
+                .isEqualTo("Возрастной рейтинг должен быть в формате N+, где N от 0 до 21");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если ageRating содержит нечисловой N")
         void shouldNotValidate_NonNumeric() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, 1000000, "Dev", "abc+");
-            val error = validator.validate(game);
-            assertEquals("Возрастной рейтинг должен быть в формате N+, где N от 0 до 21", error);
+            assertThat(validator.validate(withAgeRating("abc+")))
+                .isEqualTo("Возрастной рейтинг должен быть в формате N+, где N от 0 до 21");
         }
 
         @Test
         @DisplayName("Должен вернуть ошибку, если N > 21")
         void shouldNotValidate_TooHigh() {
-            val game = new Game("Игра", "01-01-2020", "Экшен", 90, 1000000, "Dev", "22+");
-            val error = validator.validate(game);
-            assertEquals("Возрастной рейтинг должен быть в формате N+, где N от 0 до 21", error);
+            assertThat(validator.validate(withAgeRating("22+")))
+                .isEqualTo("Возрастной рейтинг должен быть в формате N+, где N от 0 до 21");
         }
     }
 
     @Test
     @DisplayName("Должен пройти валидацию для корректной игры")
     void shouldValidate_ValidGame() {
-        val game = new Game("Зе Витчер 3", "19-05-2015", "Экшен РПГ", 93, 50000000, "Си Ди Проект Ред", "17+");
-        val error = validator.validate(game);
-        assertNull(error);
+        assertThat(validator.validate(validGame())).isNull();
     }
 }

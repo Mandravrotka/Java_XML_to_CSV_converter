@@ -3,6 +3,7 @@ package com.xmlconverter.model;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import static jakarta.xml.bind.annotation.XmlAccessType.FIELD;
 
 @XmlAccessorType(FIELD)
 @Data
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Game {

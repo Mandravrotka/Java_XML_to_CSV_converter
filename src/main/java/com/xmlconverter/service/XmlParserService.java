@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
 
 @Service
 public class XmlParserService {
@@ -26,8 +25,7 @@ public class XmlParserService {
 
     public Games parse(@NonNull final MultipartFile file) throws Exception {
         try (val inputStream = file.getInputStream()) {
-            val unmarshaller = JAXB_CONTEXT.createUnmarshaller();
-            return (Games) unmarshaller.unmarshal(inputStream);
+            return (Games) JAXB_CONTEXT.createUnmarshaller().unmarshal(inputStream);
         } catch (JAXBException exception) {
             throw new RuntimeException("Ошибка парсинга XML", exception);
         }

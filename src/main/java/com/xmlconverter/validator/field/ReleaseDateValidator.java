@@ -27,9 +27,7 @@ public class ReleaseDateValidator implements GameFieldValidator {
         }
 
         try {
-            val date = LocalDate.parse(releaseDate, FORMATTER);
-            val year = date.getYear();
-            
+            val year = LocalDate.parse(releaseDate, FORMATTER).getYear();
             if (year < 1950 || year > 2025) {
                 return "Год должен быть от 1950 до 2025";
             }
