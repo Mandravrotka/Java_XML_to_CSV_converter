@@ -28,6 +28,8 @@ public class GameValidator {
             .filter(Objects::nonNull)
             .toList();
         
-        return errors.isEmpty() ? null : String.join("; ", errors);
+        return errors.isEmpty()
+            ? null
+            : String.join("; ", errors);
     }
 }
