@@ -53,7 +53,9 @@ class GameServiceTest {
     }
 
     private Games gamesWithSameSales() {
-        return new Games(List.of(gameA().setSales(100), gameB().setSales(100)));
+        return new Games(List.of(
+            gameA().setSales(100),
+            gameB().setSales(100)));
     }
 
     @Test

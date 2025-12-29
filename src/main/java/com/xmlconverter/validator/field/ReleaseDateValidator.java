@@ -31,7 +31,7 @@ public class ReleaseDateValidator implements GameFieldValidator {
             if (year < 1950 || year > 2025) {
                 return "Год должен быть от 1950 до 2025";
             }
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException thrown) {
             return "Указана некорректная дата";
         }
 

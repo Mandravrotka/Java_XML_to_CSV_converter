@@ -21,7 +21,8 @@ class XmlParserServiceTest {
     }
 
     private String messageExpectException(String name, String content) {
-        return assertThrows(RuntimeException.class, () -> xmlParserService.parse(xmlFile(name, content))).getMessage();
+        return assertThrows(
+            RuntimeException.class, () -> xmlParserService.parse(xmlFile(name, content))).getMessage();
     }
 
     private MultipartFile loadValidXml() throws Exception {
