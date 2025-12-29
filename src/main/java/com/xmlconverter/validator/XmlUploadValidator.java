@@ -38,7 +38,7 @@ public class XmlUploadValidator {
             return "Не удалось распарсить XML: " + exception.getMessage();
         }
 
-        if (games.getGames() == null || games.getGames().isEmpty()) {
+        if (games.getGames().isEmpty()) {
             return "Файл не содержит игр";
         }
 

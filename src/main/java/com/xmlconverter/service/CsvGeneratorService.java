@@ -37,8 +37,8 @@ public class CsvGeneratorService {
                         game.getDeveloper(),
                         game.getAgeRating()
                     );
-                } catch (IOException exception) {
-                    throw new RuntimeException("Ошибка при записи данных в CSV", exception);
+                } catch (IOException thrown) {
+                    throw new RuntimeException("Ошибка при записи данных в CSV", thrown);
                 }
             });
 
@@ -46,8 +46,8 @@ public class CsvGeneratorService {
             // некоторые данные могут оставаться в буфере
             csvPrinter.flush();
             return csvOutput.toByteArray();
-        } catch (IOException exception) {
-            throw new RuntimeException("Ошибка при генерации CSV", exception);
+        } catch (IOException thrown) {
+            throw new RuntimeException("Ошибка при генерации CSV", thrown);
         }
     }
 }

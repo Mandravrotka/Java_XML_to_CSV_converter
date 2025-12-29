@@ -17,15 +17,39 @@ class GameServiceTest {
     }
 
     private Game gameA() {
-        return new Game("Игра A", "01-01-2020", "Экшен", 90, 5000000, "Dev1", "17+");
+        return Game.builder()
+            .title("Игра A")
+            .releaseDate("01-01-2020")
+            .genre("Экшен")
+            .rating(90)
+            .sales(5000000)
+            .developer("Dev1")
+            .ageRating("17+")
+            .build();
     }
 
     private Game gameB() {
-        return new Game("Игра B", "01-01-2020", "РПГ", 85, 10000000, "Dev2", "17+");
+        return Game.builder()
+            .title("Игра B")
+            .releaseDate("01-01-2020")
+            .genre("РПГ")
+            .rating(85)
+            .sales(10000000)
+            .developer("Dev2")
+            .ageRating("17+")
+            .build();
     }
 
     private Game gameC() {
-        return new Game("Игра C", "01-01-2020", "Платформер", 95, 2000000, "Dev3", "10+");
+        return Game.builder()
+            .title("Игра C")
+            .releaseDate("01-01-2020")
+            .genre("Платформер")
+            .rating(95)
+            .sales(2000000)
+            .developer("Dev3")
+            .ageRating("10+")
+            .build();
     }
 
     private Games gamesWithSameSales() {

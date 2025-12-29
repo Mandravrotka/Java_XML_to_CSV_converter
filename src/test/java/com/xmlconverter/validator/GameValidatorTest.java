@@ -13,7 +13,15 @@ class GameValidatorTest {
     private GameValidator validator;
 
     private Game validGame() {
-        return new Game("Зе Витчер 3", "19-05-2015", "Экшен РПГ", 93, 50_000_000, "Си Ди Проект Ред", "17+");
+        return Game.builder()
+            .title("Зе Витчер 3")
+            .releaseDate("19-05-2015")
+            .genre("Экшен РПГ")
+            .rating(93)
+            .sales(50_000_000)
+            .developer("Си Ди Проект Ред")
+            .ageRating("17+")
+            .build();
     }
 
     private Game withTitle(String title) {

@@ -17,8 +17,8 @@ public class XmlProcessingService {
     public byte[] processXmlFile(@NonNull final MultipartFile file) throws Exception {
         try {
             return csvGeneratorService.generateCsv(gameService.getSortedBySalesDesc(xmlParserService.parse(file)));
-        } catch (Exception exception) {
-            throw new Exception("Ошибка обработки XML: ", exception);
+        } catch (Exception thrown) {
+            throw new Exception("Ошибка обработки XML: ", thrown);
         }
     }
 }

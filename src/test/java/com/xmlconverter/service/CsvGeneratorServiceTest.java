@@ -20,11 +20,27 @@ class CsvGeneratorServiceTest {
     }
 
     private Game gameA() {
-        return new Game("Игра A", "01-01-2020", "Экшен", 90, 5000000, "Dev1", "17+");
+        return Game.builder()
+            .title("Игра A")
+            .releaseDate("01-01-2020")
+            .genre("Экшен")
+            .rating(90)
+            .sales(5000000)
+            .developer("Dev1")
+            .ageRating("17+")
+            .build();
     }
 
     private Game gameB() {
-        return new Game("Игра B", "15-05-2019", "РПГ", 95, 8000000, "Dev2", "18+");
+        return Game.builder()
+            .title("Игра B")
+            .releaseDate("15-05-2019")
+            .genre("РПГ")
+            .rating(95)
+            .sales(8000000)
+            .developer("Dev2")
+            .ageRating("18+")
+            .build();
     }
 
     private Games gamesWithTwoGames() {

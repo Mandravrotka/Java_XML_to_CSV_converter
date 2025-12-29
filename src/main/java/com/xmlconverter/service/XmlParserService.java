@@ -16,18 +16,17 @@ public class XmlParserService {
     static {
         try {
             JAXB_CONTEXT = JAXBContext.newInstance(Games.class);
-        } catch (JAXBException exception) {
+        } catch (JAXBException thrown) {
             throw new ExceptionInInitializerError(
-                new RuntimeException("Ошибка инициализации JAXBContext", exception)
-            );
+                new RuntimeException("Ошибка инициализации JAXBContext", thrown));
         }
     }
 
     public Games parse(@NonNull final MultipartFile file) throws Exception {
         try (val inputStream = file.getInputStream()) {
             return (Games) JAXB_CONTEXT.createUnmarshaller().unmarshal(inputStream);
-        } catch (JAXBException exception) {
-            throw new RuntimeException("Ошибка парсинга XML", exception);
+        } catch (JAXBException thrown) {
+            throw new RuntimeException("Ошибка парсинга XML", thrown);
         }
     }
 }

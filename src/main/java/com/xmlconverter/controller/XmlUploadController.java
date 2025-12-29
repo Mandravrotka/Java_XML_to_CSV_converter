@@ -33,9 +33,9 @@ class XmlUploadController {
             }
 
             return ResponseHandler.createSuccessResponse(xmlProcessingService.processXmlFile(file));
-        } catch (Exception exception) {
-            log.error("Ошибка при обработке загрузки XML-файла", exception);
-            return ResponseHandler.createErrorResponse("Ошибка обработки: %s".formatted(exception.getMessage()), INTERNAL_SERVER_ERROR);
+        } catch (Exception thrown) {
+            log.error("Ошибка при обработке загрузки XML-файла", thrown);
+            return ResponseHandler.createErrorResponse("Ошибка обработки: %s".formatted(thrown.getMessage()), INTERNAL_SERVER_ERROR);
         }
     }
 }
