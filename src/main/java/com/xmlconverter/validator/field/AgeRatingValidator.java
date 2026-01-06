@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 @Component
 public class AgeRatingValidator implements GameFieldValidator {
     private static final Pattern AGE_RATING_PATTERN = Pattern.compile("^(?:[0-9]|1[0-9]|2[01])\\+$");
@@ -14,7 +16,7 @@ public class AgeRatingValidator implements GameFieldValidator {
     @Override
     public String validate(@NonNull final Game game) {
         val ageRating = game.getAgeRating();
-        if (ageRating == null || ageRating.trim().isEmpty()) {
+        if (isBlank(ageRating)) {
             return "Возрастной рейтинг не должен быть пустым";
         }
         if (!AGE_RATING_PATTERN.matcher(ageRating).matches()) {

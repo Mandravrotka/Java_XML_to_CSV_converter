@@ -61,6 +61,6 @@ class XmlUploadValidatorTest {
             "no-games.xml",
             "application/xml",
             "<игры></игры>".getBytes())))
-            .isEqualTo("Файл не содержит игр");
+            .isEqualTo("Данные игр не могут быть обработаны");
     }
 }

@@ -100,7 +100,7 @@ class GameValidatorTest {
         @DisplayName("Должен вернуть ошибку, если формат даты неверный")
         void shouldNotValidate_InvalidDateFormat() {
             assertThat(validator.validate(withReleaseDate("2020-01-01")))
-                .isEqualTo("Дата должна быть в формате DD-MM-YYYY");
+                .isEqualTo("Указана некорректная дата");
         }
 
         @Test
@@ -114,7 +114,7 @@ class GameValidatorTest {
         @DisplayName("Должен вернуть ошибку, если год в будущем")
         void shouldNotValidate_FutureYear() {
             assertThat(validator.validate(withReleaseDate("01-01-2100")))
-                .isEqualTo("Год должен быть от 1950 до 2025");
+                .isEqualTo("Год должен быть от 1950 до 2026");
         }
     }
 

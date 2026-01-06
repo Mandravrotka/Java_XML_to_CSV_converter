@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +21,6 @@ public class XmlUploadValidator {
     XmlParserService xmlParserService;
 
     public String validate(@NonNull final MultipartFile file) {
-        // Валидация файла (пустой, расширение)
         val fileError = uploadValidator.validateFile(file);
         if (fileError != null) {
             return fileError;
@@ -30,26 +30,25 @@ public class XmlUploadValidator {
             return "Требуется XML-файл";
         }
 
-        // Парсинг и проверка, что есть игры
         Games games;
         try {
             games = xmlParserService.parse(file);
-        } catch (Exception exception) {
-            return "Не удалось распарсить XML: " + exception.getMessage();
+        } catch (Exception thrown) {
+            return "Не удалось распарсить XML: " + thrown.getMessage();
         }
 
-        if (games.getGames().isEmpty()) {
-            return "Файл не содержит игр";
+        // JAXB игнорирует @NonNull
+        if (games.getGames() == null) {
+            return "Данные игр не могут быть обработаны";
         }
 
-        val errors = games.getGames().stream()
-            .filter(Objects::nonNull)
-            .map(gameValidator::validate)
-            .filter(Objects::nonNull)
-            .toList();
-        
-        return errors.isEmpty()
-            ? null
-            : String.join("; ", errors);
+        return Optional.of(games.getGames().stream()
+                .filter(Objects::nonNull)
+                .map(gameValidator::validate)
+                .filter(Objects::nonNull)
+                .toList())
+            .filter(list -> !list.isEmpty())
+            .map(list -> String.join("; ", list))
+            .orElse(null);
     }
 }

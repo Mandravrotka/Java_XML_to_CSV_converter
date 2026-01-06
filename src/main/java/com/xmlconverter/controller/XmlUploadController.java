@@ -2,6 +2,7 @@ package com.xmlconverter.controller;
 
 import com.xmlconverter.service.XmlProcessingService;
 import com.xmlconverter.validator.XmlUploadValidator;
+import com.xmlconverter.utils.ResponseHandler;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +37,8 @@ class XmlUploadController {
         } catch (Exception thrown) {
             log.error("Ошибка при обработке загрузки XML-файла", thrown);
             return ResponseHandler.createErrorResponse(
-                "Ошибка обработки: %s".formatted(thrown.getMessage()), INTERNAL_SERVER_ERROR);
+                "Ошибка обработки: %s".formatted(thrown.getMessage()),
+                INTERNAL_SERVER_ERROR);
         }
     }
 }

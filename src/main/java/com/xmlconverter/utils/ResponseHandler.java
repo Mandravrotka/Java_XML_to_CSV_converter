@@ -1,4 +1,4 @@
-package com.xmlconverter.controller;
+package com.xmlconverter.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +18,12 @@ public class ResponseHandler {
 
     public static ResponseEntity<byte[]> createSuccessResponse(final byte[] csvBytes) {
         return ResponseEntity.ok()
-            .header(CONTENT_DISPOSITION, ContentDisposition.attachment()
-                .filename(CSV_FILENAME)
-                .build().toString())
+            .header(
+                CONTENT_DISPOSITION,
+                ContentDisposition.attachment()
+                    .filename(CSV_FILENAME)
+                    .build()
+                    .toString())
             .contentType(CSV_CONTENT_TYPE)
             .body(csvBytes);
     }
