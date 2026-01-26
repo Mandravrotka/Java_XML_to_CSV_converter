@@ -28,9 +28,9 @@ public class ResponseHandler {
             .body(csvBytes);
     }
 
-    public static ResponseEntity<byte[]> createErrorResponse(String message, HttpStatus status) {
+    public static ResponseEntity<byte[]> createErrorResponse(final String message, final HttpStatus status) {
         return ResponseEntity.status(status)
-                .contentType(TEXT_PLAIN)
-                .body(message.getBytes(UTF_8));
+            .contentType(TEXT_PLAIN)
+            .body(message.getBytes(UTF_8));
     }
 }

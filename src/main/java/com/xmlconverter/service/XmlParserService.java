@@ -11,11 +11,11 @@ import jakarta.xml.bind.JAXBException;
 
 @Service
 public class XmlParserService {
-    static final JAXBContext JAXB_CONTEXT;
+    private final JAXBContext jaxbContext;
 
-    static {
+    public XmlParserService() {
         try {
-            JAXB_CONTEXT = JAXBContext.newInstance(Games.class);
+            this.jaxbContext = JAXBContext.newInstance(Games.class);
         } catch (JAXBException thrown) {
             throw new ExceptionInInitializerError(
                 new RuntimeException("Ошибка инициализации JAXBContext", thrown));
@@ -24,7 +24,7 @@ public class XmlParserService {
 
     public Games parse(@NonNull final MultipartFile file) throws Exception {
         try (val inputStream = file.getInputStream()) {
-            return (Games) JAXB_CONTEXT.createUnmarshaller().unmarshal(inputStream);
+            return (Games) jaxbContext.createUnmarshaller().unmarshal(inputStream);
         } catch (JAXBException thrown) {
             throw new RuntimeException("Ошибка парсинга XML", thrown);
         }

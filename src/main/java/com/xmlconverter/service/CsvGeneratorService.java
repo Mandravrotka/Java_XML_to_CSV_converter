@@ -18,13 +18,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Service
 @FieldDefaults(makeFinal = true)
 public class CsvGeneratorService {
-    static CSVFormat CSV_FORMAT = DEFAULT
+    final CSVFormat csvFormat = DEFAULT
         .withHeader("название", "дата", "жанр", "рейтинг", "продажи", "разработчик", "возрастной_рейтинг");
 
     public byte[] generateCsv(@NonNull final Games games) {
         try (val csvOutput = new ByteArrayOutputStream();
              val writer = new OutputStreamWriter(csvOutput, UTF_8);
-             val csvPrinter = new CSVPrinter(writer, CSV_FORMAT)) {
+             val csvPrinter = new CSVPrinter(writer, csvFormat)) {
 
             games.getGames().forEach(game -> {
                 try {

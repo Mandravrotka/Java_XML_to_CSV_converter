@@ -5,12 +5,16 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Clock;
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class GameValidatorTest {
     @Autowired
     private GameValidator validator;
+    final Clock clock = Clock.systemDefaultZone();
 
     private Game validGame() {
         return Game.builder()
@@ -114,7 +118,7 @@ class GameValidatorTest {
         @DisplayName("Должен вернуть ошибку, если год в будущем")
         void shouldNotValidate_FutureYear() {
             assertThat(validator.validate(withReleaseDate("01-01-2100")))
-                .isEqualTo("Год должен быть от 1950 до 2026");
+                .isEqualTo("Год должен быть от 1950 до " + LocalDate.now(clock).getYear());
         }
     }
 
