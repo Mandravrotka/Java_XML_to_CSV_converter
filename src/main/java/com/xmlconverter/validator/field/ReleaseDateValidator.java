@@ -14,8 +14,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 public class ReleaseDateValidator implements GameFieldValidator {
-    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    static final Clock CLOCK = Clock.systemDefaultZone();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final Clock CLOCK = Clock.systemDefaultZone();
 
     @Override
     public String validate(@NonNull final Game game) {
