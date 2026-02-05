@@ -11,7 +11,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 public class AgeRatingValidator implements GameFieldValidator {
-    final Pattern ageRatingPattern = Pattern.compile("^(?:[0-9]|1[0-9]|2[01])\\+$");
+    static final Pattern ageRatingPattern = Pattern.compile("^(?:[0-9]|1[0-9]|2[01])\\+$");
 
     @Override
     public String validate(@NonNull final Game game) {

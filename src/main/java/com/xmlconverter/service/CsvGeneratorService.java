@@ -18,7 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Service
 @FieldDefaults(makeFinal = true)
 public class CsvGeneratorService {
-    final CSVFormat csvFormat = DEFAULT
+    static final CSVFormat csvFormat = DEFAULT
         .withHeader("название", "дата", "жанр", "рейтинг", "продажи", "разработчик", "возрастной_рейтинг");
 
     public byte[] generateCsv(@NonNull final Games games) {
