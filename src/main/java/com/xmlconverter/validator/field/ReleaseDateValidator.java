@@ -14,8 +14,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 public class ReleaseDateValidator implements GameFieldValidator {
-    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    static final Clock clock = Clock.systemDefaultZone();
+    static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    static final Clock CLOCK = Clock.systemDefaultZone();
 
     @Override
     public String validate(@NonNull final Game game) {
@@ -25,8 +25,8 @@ public class ReleaseDateValidator implements GameFieldValidator {
         }
 
         try {
-            val year = LocalDate.parse(releaseDate, formatter).getYear();
-            val currentYear = LocalDate.now(clock).getYear();
+            val year = LocalDate.parse(releaseDate, FORMATTER).getYear();
+            val currentYear = LocalDate.now(CLOCK).getYear();
             if (year < 1950 || year > currentYear) {
                 return "Год должен быть от 1950 до " + currentYear;
             }

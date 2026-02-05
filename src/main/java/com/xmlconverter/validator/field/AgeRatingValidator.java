@@ -11,7 +11,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
 public class AgeRatingValidator implements GameFieldValidator {
-    static final Pattern ageRatingPattern = Pattern.compile("^(?:[0-9]|1[0-9]|2[01])\\+$");
+    private static final Pattern AGE_RATING_PATTERN = Pattern.compile("^(?:[0-9]|1[0-9]|2[01])\\+$");
 
     @Override
     public String validate(@NonNull final Game game) {
@@ -19,7 +19,7 @@ public class AgeRatingValidator implements GameFieldValidator {
         if (isBlank(ageRating)) {
             return "Возрастной рейтинг не должен быть пустым";
         }
-        if (!ageRatingPattern.matcher(ageRating).matches()) {
+        if (!AGE_RATING_PATTERN.matcher(ageRating).matches()) {
             return "Возрастной рейтинг должен быть в формате N+, где N от 0 до 21";
         }
         return null;
